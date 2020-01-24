@@ -56,7 +56,7 @@ public class PopUp {
     }
     
 
-    public void setMessage(String message) {
-        this.message.setText(message);
+    public void setMessage(String passedMessage) {
+        message.setText(passedMessage);
     }
 }

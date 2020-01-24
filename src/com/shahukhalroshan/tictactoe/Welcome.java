@@ -2,8 +2,10 @@ package com.shahukhalroshan.tictactoe;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.geometry.VPos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -13,18 +15,21 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
 public abstract class Welcome {
+    static String firstPlayerName;
+    static String secondPlayerName;
     
     public static void welcomePlayers(Stage primaryStage) {
+        
+        
         GridPane grid = new GridPane();
-        grid.setAlignment(Pos.BASELINE_CENTER);
-        grid.setPadding(new Insets(20));
+        grid.setAlignment(Pos.CENTER);
+        grid.setPadding(new Insets(30));
 
         Label firstPlayerLabel = new Label("Player 1");
         TextField firstPlayerTxt = new TextField();
         Label secondPlayerLabel = new Label("Player 2");
         TextField secondPlayerTxt = new TextField();
         Label errorLabel = new Label("");
-        
         Button letsPlayBtn = new Button("Let's Play !");
 
         GridPane.setMargin(firstPlayerLabel, new Insets(10));
@@ -33,6 +38,7 @@ public abstract class Welcome {
         GridPane.setMargin(secondPlayerTxt, new Insets(10));
         GridPane.setMargin(letsPlayBtn, new Insets(10));
         GridPane.setMargin(errorLabel, new Insets(10));
+       
 
         grid.add(firstPlayerLabel, 0, 0);
         grid.add(firstPlayerTxt, 1, 0);
@@ -44,6 +50,7 @@ public abstract class Welcome {
         GridPane.setColumnSpan(letsPlayBtn, 2);
         
         Scene firstScene = new Scene(grid);
+       
         primaryStage.setScene(firstScene);
 
         letsPlayBtn.setOnAction(new EventHandler<ActionEvent>() {
@@ -58,6 +65,8 @@ public abstract class Welcome {
                     firstPlayerTxt.requestFocus();
                     return;
                 }
+                firstPlayerName =  firstPlayerTxt.getText();
+                secondPlayerName =  secondPlayerTxt.getText();
 
                 new GameBoard(primaryStage);
             }

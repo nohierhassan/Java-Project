@@ -7,8 +7,8 @@ public class TicTacToe extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        primaryStage.setWidth(300);
-        primaryStage.setMaxWidth(300);
+        primaryStage.setWidth(350);
+        primaryStage.setMaxWidth(350);
         primaryStage.setHeight(250);
         primaryStage.setMaxHeight(250);
         primaryStage.show();

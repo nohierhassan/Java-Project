@@ -3,6 +3,7 @@ package com.shahukhalroshan.tictactoe;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
@@ -15,13 +16,19 @@ public class GameBoard {
     private int counter = 0;
     private Stage stage;
     private Scene scene;
+   
     
     public GameBoard(Stage stage) {
         
-        createOrganizeAndAssignActionToButtons(buttons);
+        setButtons(buttons);
 
         GridPane gridPane = new GridPane();
+        
         gridPane.setPadding(new Insets(20));
+        gridPane.setAlignment(Pos.CENTER);
+     
+        
+       
 
         int counter = 0;
         for (int i = 0; i < 3; i++) {
@@ -35,13 +42,14 @@ public class GameBoard {
         }
 
         scene = new Scene(gridPane, 230, 230);
+
         stage.setScene(scene);
         stage.show();
         stage.setResizable(false);
         this.stage = stage;
     }
     
-    private void createOrganizeAndAssignActionToButtons(Button[] buttons) {
+    private void setButtons(Button[] buttons) {
         
         for (int i = 0; i < 9; i++) {
             Button button = new Button();
@@ -79,29 +87,48 @@ public class GameBoard {
                     counter++;
                 }
                 
-                // first column
-                if(buttons[0].getText().equals(winnerString) && buttons[1].getText().equals(winnerString) && buttons[2].getText().equals(winnerString) ||
-                        // second column
-                        buttons[3].getText().equals(winnerString) && buttons[4].getText().equals(winnerString) && buttons[5].getText().equals(winnerString) ||
-                        // third column
-                        buttons[6].getText().equals(winnerString) && buttons[7].getText().equals(winnerString) && buttons[8].getText().equals(winnerString) ||
-                     // first row
-                        buttons[0].getText().equals(winnerString) && buttons[3].getText().equals(winnerString) && buttons[6].getText().equals(winnerString) ||
-                     // second row
-                        buttons[1].getText().equals(winnerString) && buttons[4].getText().equals(winnerString) && buttons[7].getText().equals(winnerString) ||
-                     // third row
-                        buttons[2].getText().equals(winnerString) && buttons[5].getText().equals(winnerString) && buttons[8].getText().equals(winnerString) ||
-                     // first diagonal
-                        buttons[0].getText().equals(winnerString) && buttons[4].getText().equals(winnerString) && buttons[8].getText().equals(winnerString) ||
-                     // second diagonal
-                        buttons[2].getText().equals(winnerString) && buttons[4].getText().equals(winnerString) && buttons[6].getText().equals(winnerString)) {
+                
+                if( 
+                        // first col
+                        checkForWin(buttons[0].getText(), buttons[1].getText(),buttons[2].getText() )    ||
+                        // second col
+                         checkForWin(buttons[3].getText(), buttons[4].getText(),buttons[5].getText() )  ||
+                        // third col
+                         checkForWin(buttons[6].getText(), buttons[7].getText(),buttons[8].getText() )  ||
+                        // first row
+                        checkForWin(buttons[0].getText(), buttons[3].getText(),buttons[6].getText() )||
+                         // second row
+                         checkForWin(buttons[1].getText(), buttons[4].getText(),buttons[7].getText() )||
+                        // third row
+                         checkForWin(buttons[2].getText(), buttons[5].getText(),buttons[8].getText() ) ||
+                         // left diagonal
+                        checkForWin(buttons[0].getText(), buttons[4].getText(),buttons[8].getText() ) ||
+                         // right diagonal
+                        checkForWin(buttons[2].getText(), buttons[4].getText(),buttons[6].getText() )  )
+                {
                     PopUp popup = new PopUp(stage);
-                    popup.setMessage(winnerString + " wins");
+                    if(winnerString.equals("X"))
+                    {
+                        popup.setMessage(Welcome.firstPlayerName + " wins");
+                    }
+                    else
+                    {
+                        popup.setMessage(Welcome.secondPlayerName + " wins");
+                    }
+                    
                 } else if (counter >= 9){
                     PopUp popup = new PopUp(stage);
                     popup.setMessage("Draw... ");
                 }
             }
         });
+    }
+    private boolean checkForWin(String s1,String s2, String s3)
+    {
+        if(!s1.equals("") && s1.equals(s2) && s1.equals(s3) )
+                return true;
+        else
+            return false;
+       
     }
 }
