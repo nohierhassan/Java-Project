@@ -152,13 +152,6 @@ public class GameBoard {
             stmt.setInt(1, num);
             stmt.setString(2, "non");
             int rs = stmt.executeUpdate();
-           
-            
-//            while(rs.next())
-//                {
-//                System.out.println(rs.getString("num"));
-//                }
-            //st.close();
             con.close();
             
         }

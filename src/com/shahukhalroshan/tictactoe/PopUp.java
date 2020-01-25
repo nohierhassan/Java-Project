@@ -14,6 +14,7 @@ public class PopUp {
     
     private Label message;
     private Button quitButton;
+    private Button replayButton;
     private Button continueButton;
     private Scene scene;
     
@@ -23,16 +24,18 @@ public class PopUp {
         message = new Label();
         message.setStyle("-fx-font-color:red");
         quitButton = new Button("Quit");
+        replayButton  = new Button("Replay the Game");
         continueButton = new Button("Continue Playing");
         
         layout = new VBox();
         layout.setAlignment(Pos.CENTER);
         VBox.setMargin(message, new Insets(10));
         VBox.setMargin(quitButton, new Insets(10));
+        VBox.setMargin(replayButton, new Insets(10));
         VBox.setMargin(continueButton, new Insets(10));
         layout.getChildren().add(message);
         layout.getChildren().add(quitButton);
-        
+        layout.getChildren().add(replayButton);
         layout.getChildren().add(continueButton);
         
         scene = new Scene(layout);
@@ -44,6 +47,14 @@ public class PopUp {
             @Override
             public void handle(ActionEvent arg0) {
                 stage.close();
+            }
+        });
+         replayButton.setOnAction(new EventHandler<ActionEvent>() {
+            
+            @Override
+            public void handle(ActionEvent arg0) {
+                System.out.println("replay is pressed!");
+               new  replayGame(stage);
             }
         });
         
