@@ -32,6 +32,7 @@ public class PopUp {
         VBox.setMargin(continueButton, new Insets(10));
         layout.getChildren().add(message);
         layout.getChildren().add(quitButton);
+        
         layout.getChildren().add(continueButton);
         
         scene = new Scene(layout);

@@ -1,5 +1,11 @@
 package com.shahukhalroshan.tictactoe;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -58,7 +64,7 @@ public class GameBoard {
             button.setMaxWidth(80);
             button.setPrefHeight(80);
             button.setMaxHeight(80);
-            changeTurn(button);
+            changeTurn(button,i);
             
         }
     }
@@ -67,11 +73,13 @@ public class GameBoard {
         return buttons;
     }
     
-    private void changeTurn(Button button) {
+    private void changeTurn(Button button,int num) {
         button.setOnAction(new EventHandler<ActionEvent>() {
 
             @Override
             public void handle(ActionEvent arg0) {
+                
+                addInDB(num);
                 
                 String winnerString = "";
                 if (button.getText().isEmpty()) {
@@ -130,5 +138,35 @@ public class GameBoard {
         else
             return false;
        
+    }
+    private boolean addInDB(int num)
+    {
+        try
+        {
+             String url = "jdbc:mysql://localhost:3306/southwind";
+            String user = "non";
+            String password = "Java123$";
+            
+            Connection con = DriverManager.getConnection(url, user, password);
+            PreparedStatement stmt =con.prepareStatement("insert into test (num,type) values (?,?)");
+            stmt.setInt(1, num);
+            stmt.setString(2, "non");
+            int rs = stmt.executeUpdate();
+           
+            
+//            while(rs.next())
+//                {
+//                System.out.println(rs.getString("num"));
+//                }
+            //st.close();
+            con.close();
+            
+        }
+        catch(SQLException ex)
+        {
+                ex.printStackTrace();
+                return false;
+        }
+        return true;
     }
 }
