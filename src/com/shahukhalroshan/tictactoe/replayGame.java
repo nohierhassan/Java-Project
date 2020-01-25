@@ -7,6 +7,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Queue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -19,11 +22,18 @@ import javafx.stage.Stage;
 public class replayGame {
     
     private Button[] buttons = new Button[9];
-    private int counter = 0;
+    //private int counter = 0;
     private Stage stage;
     private Scene scene;
     private ResultSet rs;
     private Button nextButton;
+    private Button newGameButton;
+    private Button exitButton;
+   // private int[] order = new int[9];
+  Queue<Integer> order = new LinkedList<>(); 
+    private String value = "";
+    boolean flag = true;
+    private int inOrder;
     
     
     public replayGame(Stage stage)
@@ -38,10 +48,14 @@ public class replayGame {
             Connection con = DriverManager.getConnection(url, user, password);
             Statement st = con.createStatement();
             ResultSet rs = st.executeQuery(query);
+            int counter = 0;
             
             while(rs.next())
                 {
                 System.out.println(rs.getInt("num"));
+                order.add(rs.getInt("num")) ;
+                counter++;
+               
                 }
             st.close();
             con.close();
@@ -82,12 +96,45 @@ public class replayGame {
             nextButton.setMaxWidth(80);
             nextButton.setPrefHeight(80);
             nextButton.setMaxHeight(80);
-        gridPane.add(nextButton,1,4);
+            newGameButton = new Button("New");
+            exitButton = new Button("exit");
+            newGameButton.setPrefWidth(80);
+            newGameButton.setMaxWidth(80);
+            newGameButton.setPrefHeight(80);
+            newGameButton.setMaxHeight(80);
+            
+            exitButton.setPrefWidth(80);
+            exitButton.setMaxWidth(80);
+            exitButton.setPrefHeight(80);
+            exitButton.setMaxHeight(80);
+        gridPane.add(nextButton,0,4);
+        gridPane.add(newGameButton,1,4);
+        gridPane.add(exitButton,2,4);
         nextButton.setOnAction(new EventHandler<ActionEvent>() {
             
             @Override
             public void handle(ActionEvent arg0) {
-                System.out.println("Next is pressed");
+                if(!order.isEmpty())
+                {
+                    if(flag)
+                        value="X";
+                    else
+                        value = "O";
+                    buttons[order.remove()].setText(value);
+                   flag = !flag;
+                }
+                else
+                {
+                    nextButton.setDisable(true);
+                }
+                
+            }
+        });
+        newGameButton.setOnAction(new EventHandler<ActionEvent>() {
+            
+            @Override
+            public void handle(ActionEvent arg0) {
+               new GameBoard((stage));
             }
         });
         scene = new Scene(gridPane, 250, 250);
